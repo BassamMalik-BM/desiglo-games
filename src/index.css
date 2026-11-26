@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("./assets/fonts/geist-latin-wght-normal.woff2") format("woff2-variations"),
+    url("./assets/fonts/geist-latin-wght-normal.woff2") format("woff2");
+}
+
+/* Same brand tokens as desiglo.com — dark navy is the default */
+:root,
+:root[data-theme="dark"] {
+  --page: #050a14;
+  --surface: #0a1222;
+  --surface-strong: #101b31;
+  --ink: #eef2f8;
+  --muted: #8d9ab2;
+  --silver: #c8d1df;
+  --accent: #2f7bff;
+  --accent-hover: #5c98ff;
+  --accent-soft: #2f7bff1f;
+  --line: #182540;
+  --grid: #ffffff0a;
+  --grid-hot: #2f7bff;
+  --shadow: 0 24px 80px #0008;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --page: #f5f7fb;
+  --surface: #ffffff;
+  --surface-strong: #edf1f8;
+  --ink: #0b1324;
+  --muted: #5b6882;
+  --silver: #334262;
+  --accent: #1f6bff;
+  --accent-hover: #1656d6;
+  --accent-soft: #1f6bff14;
+  --line: #dde4ef;
+  --grid: #0b13240c;
+  --grid-hot: #1f6bff;
+  --shadow: 0 24px 80px #1b2a4a1f;
+  color-scheme: light;
+}
+
+:root {
+  font-family: "Geist", Inter, "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { background: var(--page); scroll-behavior: smooth; }
+  body { margin: 0; min-width: 280px; background: var(--page); color: var(--ink); transition: background-color .3s, color .3s; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  img, svg { display: block; max-width: 100%; }
+  h1, h2, h3, p { margin: 0; }
+  ::selection { background: #2f7bff40; }
+  *:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+}
+
+.g-container { max-width: 1240px; width: calc(100% - 48px); margin-inline: auto; }
+@media (min-width: 768px) { .g-container { width: calc(100% - 96px); } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 650; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--silver) 90%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Hero: pixel grid that lights up under the cursor */
+.glow-grid { position: absolute; inset: 0; pointer-events: none; }
+.glow-grid::before,
+.glow-grid::after {
+  content: ""; position: absolute; inset: 0;
+  background-size: 44px 44px;
+}
+.glow-grid::before {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent);
+}
+.glow-grid::after {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--grid-hot) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--grid-hot) 70%, transparent) 1px, transparent 1px);
+  mask-image: radial-gradient(220px circle at var(--mx, 50%) var(--my, 40%), #000 0%, transparent 70%);
+  opacity: var(--glow, 0);
+  transition: opacity .4s;
+}
+
+/* Locked placeholder shimmer */
+.locked-shimmer { position: relative; overflow: hidden; }
+.locked-shimmer::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, #ffffff14 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: shimmer 2.8s ease-in-out infinite;
+}
+@keyframes shimmer { to { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .locked-shimmer::after { animation: none; }
+  html { scroll-behavior: auto; }
+}
