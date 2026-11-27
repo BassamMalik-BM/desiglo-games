@@ -126,8 +126,13 @@ export default function Layout() {
             <a href="https://desiglo.com/contact" className="hover:text-[var(--ink)]">Contact ↗</a>
           </div>
         </div>
-        <div className="g-container border-t border-[var(--line)] py-5 text-xs text-[var(--muted)]">
-          © {new Date().getFullYear()} Desiglo. All rights reserved.
+        <div className="g-container flex flex-col gap-3 border-t border-[var(--line)] py-5 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Desiglo. All rights reserved.</p>
+          <nav aria-label="Legal" className="flex items-center gap-3">
+            <Link to="/privacy" className="transition hover:text-[var(--ink)]">Privacy Policy</Link>
+            <span aria-hidden="true" className="text-[var(--line)]">|</span>
+            <Link to="/terms" className="transition hover:text-[var(--ink)]">Terms &amp; Conditions</Link>
+          </nav>
         </div>
       </footer>
     </div>
